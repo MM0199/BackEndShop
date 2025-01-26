@@ -27,11 +27,6 @@ public class Image {
     @JoinColumn(name = "product_id")
     private Product product;
 
-
-    public Long getId() {
-        return id;
-    }
-
     public Blob getImage() {
         return image;
     }
@@ -54,17 +49,5 @@ public class Image {
 
     public void setImage(Blob image) {
         this.image = image;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public void setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
-    }
-
-    public String getDownloadUrl() {
-        return downloadUrl;
     }
 }

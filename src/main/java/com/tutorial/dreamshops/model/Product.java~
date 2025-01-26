@@ -46,23 +46,23 @@ public class Product {
         this.category = category;
     }
 
-    public void setName(String name) {
+    public void setName() {
         this.name = name;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand() {
         this.brand = brand;
     }
 
-    public void setDescription(String description) {
+    public void setDescription() {
         this.description = description;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice() {
         this.price = price;
     }
 
-    public void setInventory(int inventory) {
+    public void setInventory() {
         this.inventory = inventory;
     }
 }
