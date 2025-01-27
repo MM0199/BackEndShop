@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+@Data
 public class AddProductRequest {
     private Long id;
     private String name;
@@ -13,32 +14,4 @@ public class AddProductRequest {
     private int inventory;
     private String description;
     private Category category;
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public int getInventory() {
-        return inventory;
-    }
 }

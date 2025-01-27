@@ -1,15 +1,14 @@
 package com.tutorial.dreamshops.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Category {
     @Id
@@ -21,14 +20,6 @@ public class Category {
     private List<Product> products;
 
     public Category(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 }

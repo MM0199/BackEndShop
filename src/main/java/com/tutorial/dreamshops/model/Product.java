@@ -1,16 +1,15 @@
 package com.tutorial.dreamshops.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Product {
     @Id
@@ -36,33 +35,5 @@ public class Product {
         this.price = price;
         this.inventory = inventory;
         this.category = category;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public void setInventory(int inventory) {
-        this.inventory = inventory;
     }
 }
