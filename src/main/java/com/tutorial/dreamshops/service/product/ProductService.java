@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;

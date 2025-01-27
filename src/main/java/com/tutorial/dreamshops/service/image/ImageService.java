@@ -16,8 +16,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class ImageService implements IImageService {
 
     private final ImageRepository imageRepository;

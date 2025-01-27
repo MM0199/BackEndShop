@@ -20,6 +20,7 @@ public class CategoryController {
 
     private final ICategoryService categoryService;
 
+
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllCategories() {
         try {
