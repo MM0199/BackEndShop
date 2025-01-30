@@ -5,6 +5,7 @@ import com.tutorial.dreamshops.exception.ResourceNotFoundException;
 import com.tutorial.dreamshops.model.Category;
 import com.tutorial.dreamshops.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +29,11 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category getCategoryByName(String name) {
-        return categoryRepository.findByName(name);
+        Category category = categoryRepository.findByName(name);
+        if (category == null) {
+            throw new ResourceNotFoundException("Category not found!");
+        }
+        return category;
     }
 
     @Override

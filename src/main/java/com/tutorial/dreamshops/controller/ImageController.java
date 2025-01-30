@@ -29,7 +29,7 @@ public class ImageController {
     private final IImageService imageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
+    public ResponseEntity<ApiResponse> saveImages(@RequestBody List<MultipartFile> files, @RequestParam Long productId) {
         try {
             List<ImageDto> imageDtos = imageService.saveImage(files, productId);
             return ResponseEntity.ok(new ApiResponse("Upload success!", imageDtos));
@@ -46,13 +46,13 @@ public class ImageController {
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + image.getFileName() + "\"")
-                        .body(resource
-                );
+                        "attachment; filename=\"" + image.getFileName() + "\""
+                )
+                .body(resource);
     }
 
-    @PutMapping("/image/{imageId}/update")
-    public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId, @RequestBody MultipartFile file) {
+    @PutMapping("/image/update")
+    public ResponseEntity<ApiResponse> updateImage(@RequestParam Long imageId, @RequestBody MultipartFile file) {
         try {
             Image image = imageService.getImageById(imageId);
             if (image != null) {
@@ -65,8 +65,8 @@ public class ImageController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Update failed!", INTERNAL_SERVER_ERROR));
     }
 
-    @DeleteMapping("/image/{imageId}/delete")
-    public ResponseEntity<ApiResponse> deleteImage(@PathVariable Long imageId) {
+    @DeleteMapping("/image/delete")
+    public ResponseEntity<ApiResponse> deleteImage(@RequestParam Long imageId) {
         try {
             imageService.deleteImage(imageId);
             return ResponseEntity.ok(new ApiResponse("Delete success!", null));

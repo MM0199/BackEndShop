@@ -1,5 +1,6 @@
 package com.tutorial.dreamshops.repository;
 
+import com.tutorial.dreamshops.dto.ProductDto;
 import com.tutorial.dreamshops.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 

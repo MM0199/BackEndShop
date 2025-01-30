@@ -1,14 +1,19 @@
 package com.tutorial.dreamshops.service.product;
 
+import com.tutorial.dreamshops.dto.ImageDto;
+import com.tutorial.dreamshops.dto.ProductDto;
 import com.tutorial.dreamshops.exception.ProductNotFoundException;
 import com.tutorial.dreamshops.model.Category;
+import com.tutorial.dreamshops.model.Image;
 import com.tutorial.dreamshops.model.Product;
 import com.tutorial.dreamshops.repository.CategoryRepository;
+import com.tutorial.dreamshops.repository.ImageRepository;
 import com.tutorial.dreamshops.repository.ProductRepository;
 import com.tutorial.dreamshops.repository.request.AddProductRequest;
 import com.tutorial.dreamshops.repository.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +24,8 @@ public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ImageRepository imageRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Product addProduct(AddProductRequest request) {
@@ -40,9 +47,9 @@ public class ProductService implements IProductService {
         return new Product(
                 request.getName(),
                 request.getBrand(),
-                request.getDescription(),
                 request.getPrice(),
                 request.getInventory(),
+                request.getDescription(),
                 category
         );
     }
@@ -87,31 +94,69 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategoryName(category);
+        List<Product> products = productRepository.findByCategoryName(category);
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("Product not found!");
+        }
+        return products;
     }
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
-        return productRepository.findByBrand(brand);
+        List<Product> products = productRepository.findByBrand(brand);
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("Product not found!");
+        }
+        return products;
     }
 
     @Override
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
-        return productRepository.findByCategoryNameAndBrand(category, brand);
+        List<Product> products = productRepository.findByCategoryNameAndBrand(category, brand);
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("Product not found!");
+        }
+        return products;
     }
 
     @Override
     public List<Product> getProductsByName(String name) {
-        return productRepository.findByName(name);
+        List<Product> products = productRepository.findByName(name);
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("Product not found!");
+        }
+        return products;
     }
 
     @Override
     public List<Product> getProductsByBrandAndName(String brand, String name) {
-        return productRepository.findByBrandAndName(brand, name);
+        List<Product> products = productRepository.findByBrandAndName(brand, name);
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("Product not found!");
+        }
+        return products;
     }
 
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
         return productRepository.countByBrandAndName(brand, name);
+    }
+
+    @Override
+    public List<ProductDto> convertToProductsDto(List<Product> products) {
+        return products.stream()
+                .map(this::convertToDto)
+                .toList();
+    }
+
+    @Override
+    public ProductDto convertToDto(Product product) {
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDto> imageDtos = images.stream()
+                .map(image -> modelMapper.map(image, ImageDto.class))
+                .toList();
+        productDto.setImages(imageDtos);
+        return productDto;
     }
 }
