@@ -21,8 +21,12 @@ public class Cart {
     private Long id;
     BigDecimal totalAmount = BigDecimal.ZERO;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<CartItem> cartItems = new HashSet<>();
+    private Set<CartItem> cartItems = new HashSet<>();
 
     public void addItem(CartItem item){
         this.cartItems.add(item);

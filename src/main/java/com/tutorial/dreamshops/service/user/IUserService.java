@@ -1,0 +1,14 @@
+package com.tutorial.dreamshops.service.user;
+
+import com.tutorial.dreamshops.model.User;
+import com.tutorial.dreamshops.repository.request.CreateUserRequest;
+import com.tutorial.dreamshops.repository.request.UpdateUserRequest;
+
+public interface IUserService {
+    User getUserById(Long userId);
+    User createUser(CreateUserRequest user);
+
+    User updateUser(UpdateUserRequest user, Long userId);
+
+    void deleteUser(Long userId);
+}
