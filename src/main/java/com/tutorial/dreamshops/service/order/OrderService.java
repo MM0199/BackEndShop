@@ -3,12 +3,10 @@ package com.tutorial.dreamshops.service.order;
 import com.tutorial.dreamshops.dto.OrderDto;
 import com.tutorial.dreamshops.enums.OrderStatus;
 import com.tutorial.dreamshops.exception.ResourceNotFoundException;
-import com.tutorial.dreamshops.model.Cart;
-import com.tutorial.dreamshops.model.Order;
-import com.tutorial.dreamshops.model.OrderItem;
-import com.tutorial.dreamshops.model.Product;
+import com.tutorial.dreamshops.model.*;
 import com.tutorial.dreamshops.repository.OrderRepository;
 import com.tutorial.dreamshops.repository.ProductRepository;
+import com.tutorial.dreamshops.repository.UserRepository;
 import com.tutorial.dreamshops.service.cart.ICartService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +23,7 @@ public class OrderService implements IOrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
     private final ICartService cartService;
     private final ModelMapper modelMapper;
 
@@ -36,7 +35,13 @@ public class OrderService implements IOrderService {
         List<OrderItem> orderItems = createOrderItems(order, cart);
         order.setOrderItems(new HashSet<>(orderItems));
         order.setTotalAmount(cart.getTotalAmount());
+        order.setUser(cart.getUser());
         Order savedOrder = orderRepository.save(order);
+        User user = cart.getUser();
+        List<Order> orders = user.getOrders();
+        orders.add(savedOrder);
+        user.setOrders(orders);
+        userRepository.save(user);
         cartService.clearCart(cart.getId());
         return convertToDto(savedOrder);
     }

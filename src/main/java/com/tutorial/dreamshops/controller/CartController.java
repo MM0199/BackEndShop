@@ -29,7 +29,7 @@ public class CartController {
         }
     }
 
-    @DeleteMapping("/clear-cart")
+    @PutMapping("/clear-cart")
     public ResponseEntity<ApiResponse> clearCart(@RequestParam Long id) {
         try {
             cartService.clearCart(id);

@@ -10,6 +10,7 @@ import com.tutorial.dreamshops.model.User;
 import com.tutorial.dreamshops.repository.UserRepository;
 import com.tutorial.dreamshops.repository.request.CreateUserRequest;
 import com.tutorial.dreamshops.repository.request.UpdateUserRequest;
+import com.tutorial.dreamshops.service.order.IOrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
+    private final IOrderService orderService;
     private final ModelMapper modelMapper;
     @Override
     public User getUserById(Long userId) {
@@ -75,8 +79,10 @@ public class UserService implements IUserService {
             userDto.setOrders(
                     orders.stream().map(
                             order -> modelMapper.map(order, OrderDto.class)
-                    ).toList()
+                    ).collect(toList())
             );
+        } else {
+            userDto.setOrders(null);
         }
         return userDto;
     }

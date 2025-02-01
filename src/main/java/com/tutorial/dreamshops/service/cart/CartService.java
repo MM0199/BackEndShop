@@ -6,6 +6,7 @@ import com.tutorial.dreamshops.repository.CartItemRepository;
 import com.tutorial.dreamshops.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicLong;
@@ -30,10 +31,15 @@ public class CartService implements ICartService {
 
     @Override
     public void clearCart(Long id) {
-        Cart cart = getCart(id);
-        cartItemRepository.deleteAllByCartId(id);
-        cart.getCartItems().clear();
-        cartRepository.deleteById(id);
+        cartRepository
+                .findById(id).ifPresentOrElse(
+                        cart -> {
+                            cart.getCartItems().clear();
+                            cart.setTotalAmount(BigDecimal.ZERO);
+                            cartRepository.save(cart);
+                        },
+                        () -> { throw new ResourceNotFoundException("Cart not found!"); }
+                );
     }
 
     @Override
