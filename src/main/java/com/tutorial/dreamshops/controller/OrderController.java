@@ -1,6 +1,7 @@
 package com.tutorial.dreamshops.controller;
 
 import com.tutorial.dreamshops.exception.ResourceNotFoundException;
+import com.tutorial.dreamshops.model.Order;
 import com.tutorial.dreamshops.response.ApiResponse;
 import com.tutorial.dreamshops.service.order.IOrderService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("${api.version}/orders")
+@RequestMapping("${api.prefix}/orders")
 public class OrderController {
 
     private final IOrderService orderService;
@@ -20,8 +21,7 @@ public class OrderController {
     @PostMapping("/place-order")
     public ResponseEntity<ApiResponse> placeOrder(@RequestParam Long userId) {
         try {
-            orderService.placeOrder(userId);
-            return ResponseEntity.ok(new ApiResponse("Success!", null));
+            return ResponseEntity.ok(new ApiResponse("Success!", orderService.placeOrder(userId)));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
         }

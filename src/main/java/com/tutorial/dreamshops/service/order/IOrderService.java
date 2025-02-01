@@ -6,7 +6,7 @@ import com.tutorial.dreamshops.model.Order;
 import java.util.List;
 
 public interface IOrderService {
-    Order placeOrder(Long userId);
+    OrderDto placeOrder(Long userId);
     OrderDto getOrder(Long orderId);
 
     List<OrderDto> getOrdersByUserId(Long userId);

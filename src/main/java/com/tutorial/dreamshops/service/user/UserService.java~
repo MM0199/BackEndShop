@@ -4,7 +4,6 @@ import com.tutorial.dreamshops.dto.OrderDto;
 import com.tutorial.dreamshops.dto.UserDto;
 import com.tutorial.dreamshops.exception.AlreadyExistsException;
 import com.tutorial.dreamshops.exception.ResourceNotFoundException;
-import com.tutorial.dreamshops.model.Cart;
 import com.tutorial.dreamshops.model.Order;
 import com.tutorial.dreamshops.model.User;
 import com.tutorial.dreamshops.repository.UserRepository;
@@ -37,9 +36,6 @@ public class UserService implements IUserService {
                 .filter(user -> !userRepository.existsByEmail(request.getEmail()))
                 .map( req -> {
                     User user = new User();
-                    Cart cart = new Cart();
-                    cart.setUser(user);
-                    user.setCart(cart);
                     user.setFirstName(req.getFirstName());
                     user.setLastName(req.getLastName());
                     user.setEmail(req.getEmail());
