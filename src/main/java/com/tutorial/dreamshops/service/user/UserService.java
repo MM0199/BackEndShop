@@ -6,17 +6,23 @@ import com.tutorial.dreamshops.exception.AlreadyExistsException;
 import com.tutorial.dreamshops.exception.ResourceNotFoundException;
 import com.tutorial.dreamshops.model.Cart;
 import com.tutorial.dreamshops.model.Order;
+import com.tutorial.dreamshops.model.Role;
 import com.tutorial.dreamshops.model.User;
+import com.tutorial.dreamshops.repository.RoleRepository;
 import com.tutorial.dreamshops.repository.UserRepository;
 import com.tutorial.dreamshops.repository.request.CreateUserRequest;
 import com.tutorial.dreamshops.repository.request.UpdateUserRequest;
 import com.tutorial.dreamshops.service.order.IOrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 
@@ -25,8 +31,9 @@ import static java.util.stream.Collectors.toList;
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
-    private final IOrderService orderService;
+    private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public User getUserById(Long userId) {
         return userRepository
@@ -41,13 +48,11 @@ public class UserService implements IUserService {
                 .filter(user -> !userRepository.existsByEmail(request.getEmail()))
                 .map( req -> {
                     User user = new User();
-                    Cart cart = new Cart();
-                    cart.setUser(user);
-                    user.setCart(cart);
                     user.setFirstName(req.getFirstName());
                     user.setLastName(req.getLastName());
                     user.setEmail(req.getEmail());
-                    user.setPassword(req.getPassword());
+                    user.setPassword(passwordEncoder.encode(req.getPassword()));
+                    user.setRoles(Set.of(roleRepository.findByName("ROLE_USER")));
                     return userRepository.save(user);
                 }).orElseThrow(() -> new AlreadyExistsException("User already exists!"));
     }
@@ -69,6 +74,13 @@ public class UserService implements IUserService {
                         userRepository::delete,
                         () -> { throw new ResourceNotFoundException("User not found!"); }
                 );
+    }
+
+    @Override
+    public User getAuthenticatedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        return userRepository.findByEmail(email);
     }
 
     @Override

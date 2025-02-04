@@ -1,6 +1,7 @@
 package com.tutorial.dreamshops.controller;
 
 import com.tutorial.dreamshops.dto.UserDto;
+import com.tutorial.dreamshops.exception.AlreadyExistsException;
 import com.tutorial.dreamshops.exception.ResourceNotFoundException;
 import com.tutorial.dreamshops.model.User;
 import com.tutorial.dreamshops.repository.request.CreateUserRequest;
@@ -37,7 +38,7 @@ public class UserController {
             User newUser = userService.createUser(request);
             UserDto userDto = userService.convertToDto(newUser);
             return ResponseEntity.ok(new ApiResponse("Success!", userDto));
-        } catch (ResourceNotFoundException e) {
+        } catch (AlreadyExistsException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }
     }
