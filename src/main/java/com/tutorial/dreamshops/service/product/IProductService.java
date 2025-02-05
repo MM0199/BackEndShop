@@ -2,8 +2,8 @@ package com.tutorial.dreamshops.service.product;
 
 import com.tutorial.dreamshops.dto.ProductDto;
 import com.tutorial.dreamshops.model.Product;
-import com.tutorial.dreamshops.repository.request.AddProductRequest;
-import com.tutorial.dreamshops.repository.request.ProductUpdateRequest;
+import com.tutorial.dreamshops.request.AddProductRequest;
+import com.tutorial.dreamshops.request.ProductUpdateRequest;
 
 import java.util.List;
 

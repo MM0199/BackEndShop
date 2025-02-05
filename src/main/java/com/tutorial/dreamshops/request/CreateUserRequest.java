@@ -1,4 +1,4 @@
-package com.tutorial.dreamshops.repository.request;
+package com.tutorial.dreamshops.request;
 
 import lombok.Data;
 import org.hibernate.annotations.NaturalId;

@@ -2,8 +2,8 @@ package com.tutorial.dreamshops.service.user;
 
 import com.tutorial.dreamshops.dto.UserDto;
 import com.tutorial.dreamshops.model.User;
-import com.tutorial.dreamshops.repository.request.CreateUserRequest;
-import com.tutorial.dreamshops.repository.request.UpdateUserRequest;
+import com.tutorial.dreamshops.request.CreateUserRequest;
+import com.tutorial.dreamshops.request.UpdateUserRequest;
 
 public interface IUserService {
     User getUserById(Long userId);

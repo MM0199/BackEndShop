@@ -1,4 +1,4 @@
-package com.tutorial.dreamshops.repository.request;
+package com.tutorial.dreamshops.request;
 
 import com.tutorial.dreamshops.model.Category;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class AddProductRequest {
+public class ProductUpdateRequest {
     private Long id;
     private String name;
     private String brand;

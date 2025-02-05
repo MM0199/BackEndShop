@@ -2,9 +2,10 @@ package com.tutorial.dreamshops.controller;
 
 import com.tutorial.dreamshops.dto.ProductDto;
 import com.tutorial.dreamshops.exception.ProductNotFoundException;
+import com.tutorial.dreamshops.exception.ResourceNotFoundException;
 import com.tutorial.dreamshops.model.Product;
-import com.tutorial.dreamshops.request.AddProductRequest;
-import com.tutorial.dreamshops.request.ProductUpdateRequest;
+import com.tutorial.dreamshops.repository.request.AddProductRequest;
+import com.tutorial.dreamshops.repository.request.ProductUpdateRequest;
 import com.tutorial.dreamshops.response.ApiResponse;
 import com.tutorial.dreamshops.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
